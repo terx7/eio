@@ -1,4 +1,8 @@
-f = open("file.txt", "r")
+import sys
+
+
+
+f = sys.stdin
 
 dict1= {}
 dict2 = {}
@@ -21,4 +25,4 @@ for x in dict1:
                 dict3[dict1[x]] = dict2[y]
 
 for x in dict3:
-    print(x + " " + dict3[x])
+    sys.stdout.write(x + " " + dict3[x] + "\n")
