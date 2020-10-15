@@ -1,0 +1,2 @@
+mari 10
+juku 7
