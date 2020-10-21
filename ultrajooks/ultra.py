@@ -1,4 +1,5 @@
 import datetime
+import time
 
 f = open("ultrajooks/ultrasis.txt", "r")
 
@@ -7,17 +8,15 @@ a = int(f.readline())
 dict1 = {}
 
 def converter(test):
-    time = test.split(':')
-    hours = int(time[0]) * 3600
-    minutes = int(time[1]) * 60
-    seconds = int(time[2]) + minutes + hours
-    return int(seconds)
+    h, m, s = test.split(':')
+    return int(h) * 3600 + int(m) * 60 + int(s)
 
-def reverseConv(test):
-    hours = int(test)/ 3600
-    minutes = int(hours) % 3600 / 60
-    seconds = int(hours) % 3600 % 60
-    print (str(int(hours)) + ":" + str(int(minutes)) + ":" + str(int(seconds)))
+def reverseConv(seconds):
+    min, sec = divmod(seconds, 60)
+    hour, min = divmod(min, 60)
+    print(hour, min, sec)
+    return "%d:%02d:%02d" % (hour, min, sec)
+
 
 for line in range(a):
     data = f.readline().strip('\n')
@@ -28,13 +27,22 @@ for line in range(a):
             line[3] = '00:00:00'
         if team not in dict1:
             dict1[team] = {
-                'time': converter(line[3]),
-                'distance' : line[2],
-                'gender' : line[1]
-            }
-
+                'mTime' : [],
+                'nTime' : [],
+                'distance' : {
+                },
+                }
+        dict1[team]['distance'][converter(line[3])] = line[2]
+        if line[1] == "M":
+            dict1[team]['mTime'].append(converter(line[3]))
         else:
-            dict1[team]['time'] += converter(line[3])
-        reverseConv(dict1[team]['time'])
+            dict1[team]['nTime'].append(line[3])
 
+
+
+        #else:
+            #dict1[team]['time'] += converter(line[3])
+
+#for x in dict1:
+   # reverseConv(dict1[x]['time'])
 print(dict1)
